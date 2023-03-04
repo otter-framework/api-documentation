@@ -28,6 +28,14 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example: { message: "Room was created successfully." }
         "404":
           description: Not Found
   /room/{id}:
@@ -51,6 +59,7 @@ paths:
                 properties:
                   roomId:
                     type: string
+                    example: "34895d14-870c-415a-9559-c85fb6f3ad26"
                   status:
                     type: string
                     enum:
@@ -60,10 +69,13 @@ paths:
                       - "full"
                   createdAt:
                     type: string
+                    example: "Fri, 03 Mar 2023 17:28:11 GMT"
                   updatedAt:
                     type: string
+                    example: "Fri, 03 Mar 2023 17:28:11 GMT"
                   roomName:
                     type: string
+                    example: "otter"
         "404":
           description: Not Found
           content:
