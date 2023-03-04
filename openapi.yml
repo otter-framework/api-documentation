@@ -1,9 +1,10 @@
 openapi: "3.0.2"
 info:
-  title: Otter Core API
-  description: |
-
+  title: Otter Framework API
   version: "1.0"
+  license:
+    name: Apache 2.0
+    url: https://spdx.org/licenses/Apache-2.0.html
 servers:
   - url: https://localhost:3000/v1
 security: []
@@ -15,3 +16,52 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Not Found
+  /room/{id}:
+    get:
+      summary: Fetch a Room resource
+      description: Fetch a specific Room resource by roomId
+      operationId: getRoomById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roomId:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                      - "closed"
+                      - "open"
+                      - "occupied"
+                      - "full"
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  roomName:
+                    type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  Not Found:
+                    summary: Requested Room resource is not in the database
+                    value: { message: "Requested Room resource doesn't exist" }
