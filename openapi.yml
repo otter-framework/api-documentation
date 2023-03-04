@@ -5,8 +5,20 @@ info:
   license:
     name: Apache 2.0
     url: https://spdx.org/licenses/Apache-2.0.html
+  description: |
+    The Otter Framework REST API is for API consumers to create and manipulate peer to peer video communication room resources.
+
+    # Errors
+
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+
+    ```
+    {
+      "message": "resource not found"
+    }
+    ```
 servers:
-  - url: https://localhost:3000/v1
+  - url: http://localhost:3000/v1
 security: []
 paths:
   /rooms:
@@ -61,7 +73,4 @@ paths:
                 properties:
                   message:
                     type: string
-                example:
-                  Not Found:
-                    summary: Requested Room resource is not in the database
-                    value: { message: "Requested Room resource doesn't exist" }
+                example: { message: "Room resource doesn't exist" }
