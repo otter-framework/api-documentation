@@ -25,7 +25,7 @@ components:
     roomObject:
       type: object
       properties:
-        room_id:
+        id:
           type: string
         status:
           type: string
@@ -38,7 +38,7 @@ components:
           type: string
         updated_at:
           type: string
-        room_name:
+        unique_name:
           type: string
 paths:
   /rooms:
@@ -53,7 +53,7 @@ paths:
             schema:
               type: object
               properties:
-                room_name:
+                uniqueName:
                   type: string
                   example: "otter"
       responses:
@@ -68,8 +68,8 @@ paths:
                   summary: room created without a name.
                   value:
                     {
-                      room_id: "34895d14-870c-415a-9559-c85fb6f3ad26",
-                      room_name: "",
+                      id: "34895d14-870c-415a-9559-c85fb6f3ad26",
+                      unique_name: "",
                       status: "open",
                       created_at: "Fri, 03 Mar 2023 17:28:11 GMT",
                       updated_at: "Fri, 03 Mar 2023 17:28:11 GMT",
@@ -78,8 +78,8 @@ paths:
                   summary: room created with a room name `otter`.
                   value:
                     {
-                      room_id: "34895d14-870c-415a-9559-c85fb6f3ad26",
-                      room_name: "otter",
+                      id: "34895d14-870c-415a-9559-c85fb6f3ad26",
+                      unique_name: "otter",
                       status: "open",
                       created_at: "Fri, 03 Mar 2023 17:28:11 GMT",
                       updated_at: "Fri, 03 Mar 2023 17:28:11 GMT",
@@ -108,8 +108,8 @@ paths:
                 typicalRoomResource:
                   value:
                     {
-                      room_id: "34895d14-870c-415a-9559-c85fb6f3ad26",
-                      room_name: "otter",
+                      id: "34895d14-870c-415a-9559-c85fb6f3ad26",
+                      unique_name: "otter",
                       status: "open",
                       created_at: "Fri, 03 Mar 2023 17:28:11 GMT",
                       updated_at: "Fri, 03 Mar 2023 17:28:11 GMT",
