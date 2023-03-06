@@ -1,0 +1,6 @@
+theme:
+  openapi:
+    theme:
+      "typography":
+        "fontSize": "18px"
+        "fontFamily": "SF Pro, sans-serif"
