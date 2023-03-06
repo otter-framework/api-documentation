@@ -6,7 +6,7 @@ info:
     name: Apache 2.0
     url: https://spdx.org/licenses/Apache-2.0.html
   description: |
-    The Otter Framework REST API is for API consumers to create and manipulate peer to peer video communication room resources.
+    The Otter Framework REST API is for API consumers creating and manipulating room resources for peer to peer video communications.
 
     # Errors
 
@@ -20,31 +20,79 @@ info:
 servers:
   - url: http://localhost:3000/v1
 security: []
+components:
+  schemas:
+    roomObject:
+      type: object
+      properties:
+        room_id:
+          type: string
+        status:
+          type: string
+          enum:
+            - "closed"
+            - "open"
+            - "occupied"
+            - "full"
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        room_name:
+          type: string
 paths:
   /rooms:
     post:
       summary: Create a new room
       operationId: createNewRoom
+      requestBody:
+        description: (Optional) Specify properties for the new room. If there is no request body, a new room with default settings will be created.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                room_name:
+                  type: string
+                  example: "otter"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                example: { message: "Room was created successfully." }
+                $ref: "#/components/schemas/roomObject"
+              examples:
+                createdRoomWithoutName:
+                  summary: room created without a name.
+                  value:
+                    {
+                      room_id: "34895d14-870c-415a-9559-c85fb6f3ad26",
+                      room_name: "",
+                      status: "open",
+                      created_at: "Fri, 03 Mar 2023 17:28:11 GMT",
+                      updated_at: "Fri, 03 Mar 2023 17:28:11 GMT",
+                    }
+                createdRoomWithName:
+                  summary: room created with a room name `otter`.
+                  value:
+                    {
+                      room_id: "34895d14-870c-415a-9559-c85fb6f3ad26",
+                      room_name: "otter",
+                      status: "open",
+                      created_at: "Fri, 03 Mar 2023 17:28:11 GMT",
+                      updated_at: "Fri, 03 Mar 2023 17:28:11 GMT",
+                    }
         "404":
           description: Not Found
-  /room/{id}:
+  /rooms/{uniqueIdentifier}:
     get:
       summary: Fetch a Room resource
-      description: Fetch a specific Room resource by roomId
+      description: Fetch a specific Room resource by a unique room identifier (can be `room_id` or `room_name`).
       operationId: getRoomById
       parameters:
-        - name: id
+        - name: uniqueIdentifier
           in: path
           required: true
           schema:
@@ -55,27 +103,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  roomId:
-                    type: string
-                    example: "34895d14-870c-415a-9559-c85fb6f3ad26"
-                  status:
-                    type: string
-                    enum:
-                      - "closed"
-                      - "open"
-                      - "occupied"
-                      - "full"
-                  createdAt:
-                    type: string
-                    example: "Fri, 03 Mar 2023 17:28:11 GMT"
-                  updatedAt:
-                    type: string
-                    example: "Fri, 03 Mar 2023 17:28:11 GMT"
-                  roomName:
-                    type: string
-                    example: "otter"
+                $ref: "#/components/schemas/roomObject"
+              examples:
+                typicalRoomResource:
+                  value:
+                    {
+                      room_id: "34895d14-870c-415a-9559-c85fb6f3ad26",
+                      room_name: "otter",
+                      status: "open",
+                      created_at: "Fri, 03 Mar 2023 17:28:11 GMT",
+                      updated_at: "Fri, 03 Mar 2023 17:28:11 GMT",
+                    }
+
         "404":
           description: Not Found
           content:
