@@ -43,10 +43,12 @@ components:
 paths:
   /rooms:
     post:
-      summary: Create a new room
+      summary: Fetch or create a new room
+      description: |
+        Sending POST request with an optional Room identifier to this endpoint will first check if the Room exists. If it does, the room resource will be returned. If it doesn't exist, a new room resource will be created and returned to the consumer.
       operationId: createNewRoom
       requestBody:
-        description: (Optional) Specify properties for the new room. If there is no request body, a new room with default settings will be created.
+        description: (Optional) Specify the name for the new room. If there is no request body, a new room without a name will be created.
         required: false
         content:
           application/json:
@@ -114,7 +116,19 @@ paths:
                       created_at: "Fri, 03 Mar 2023 17:28:11 GMT",
                       updated_at: "Fri, 03 Mar 2023 17:28:11 GMT",
                     }
-
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  {
+                    message: "No room ID or room name specified. Please check your request and try again",
+                  }
         "404":
           description: Not Found
           content:
@@ -125,3 +139,10 @@ paths:
                   message:
                     type: string
                 example: { message: "Room resource doesn't exist" }
+  /config:
+    get:
+      summary: Get WebRTC configurations and credentials
+      operationId: getConfig
+      responses:
+        "200":
+          description: OK
